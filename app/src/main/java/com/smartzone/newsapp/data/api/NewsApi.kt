@@ -14,7 +14,7 @@ interface NewsApi {
         pageCounter: Int = 1,
         @Query("apikey")
         apiKey: String = API_KEY
-    ):MutableList<NewsResponse>
+    ):NewsResponse
 
     @GET("v2/everything")
     suspend fun searchForNews(

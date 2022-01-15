@@ -2,7 +2,7 @@ package com.smartzone.newsapp.data.db
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.example.newsapp.models.Article
+import com.smartzone.newsapp.data.model.Article
 
 @Dao
 interface NewsDao {

@@ -24,7 +24,7 @@
             android:id="@+id/navigate_to_favouriteFragment"
             app:destination="@id/favouriteFragment" />
         <action
-            android:id="@+id/action_homeFragment_to_detailsFragment"
+            android:id="@+id/navigate_to_detailsFragment"
             app:destination="@id/detailsFragment" />
     </fragment>
     <fragment
@@ -38,5 +38,10 @@
     <fragment
         android:id="@+id/detailsFragment"
         android:name="com.smartzone.newsapp.presentation.details.DetailsFragment"
-        android:label="DetailsFragment" />
+        android:label="DetailsFragment" >
+        <argument
+        android:name="article"
+        app:argType="com.smartzone.newsapp.data.model.Article" />
+
+        </fragment>
 </navigation>

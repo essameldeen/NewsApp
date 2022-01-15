@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.article_item_rv.view.*
-import com.example.newsapp.models.Article
+import com.smartzone.newsapp.data.model.Article
 import com.smartzone.newsapp.R
 
 class NewsAdapter : RecyclerView.Adapter<NewsAdapter.ArticleViewHolder>() {

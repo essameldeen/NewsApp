@@ -3,7 +3,7 @@ package com.smartzone.newsapp.data.db
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.example.newsapp.models.Article
+import com.smartzone.newsapp.data.model.Article
 
 @Database(
     entities = [Article::class],

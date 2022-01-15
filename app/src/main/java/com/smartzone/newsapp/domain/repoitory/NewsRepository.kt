@@ -1,6 +1,6 @@
 package com.smartzone.newsapp.domain.repoitory
 
-import com.example.newsapp.models.Article
+import com.smartzone.newsapp.data.model.Article
 import com.smartzone.newsapp.data.model.NewsResponse
 
 interface NewsRepository {

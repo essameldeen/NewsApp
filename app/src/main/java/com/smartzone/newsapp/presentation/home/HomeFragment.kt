@@ -5,7 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.smartzone.newsapp.data.model.Article
 import com.smartzone.newsapp.data.model.NewsResponse
 import com.smartzone.newsapp.databinding.FragmentHomeBinding
 import com.smartzone.newsapp.presentation.base.BaseFragment
@@ -46,7 +48,14 @@ class HomeFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
+        newsAdapter.setOnItemClickListener {
+            goToDetailsFragment(it)
+        }
 
+    }
+
+    private fun goToDetailsFragment(article: Article) {
+        findNavController().navigate(HomeFragmentDirections.navigateToDetailsFragment(article))
     }
 
     private fun initView() {
@@ -60,6 +69,7 @@ class HomeFragment : BaseFragment() {
     private fun setView(newsData: NewsResponse?) {
         newsAdapter.differ.submitList(newsData!!.articles.toList())
     }
+
 
 
 }

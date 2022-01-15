@@ -1,6 +1,5 @@
 package com.smartzone.newsapp.app.di
 
-import com.google.gson.GsonBuilder
 import com.smartzone.newsapp.data.api.NewsApi
 import com.smartzone.utils.Constant.Companion.BASE_URL
 import dagger.Module

@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.smartzone.newsapp.data.model.Article
 import com.smartzone.newsapp.data.model.NewsResponse
 import com.smartzone.newsapp.domain.usecase.GetAllNews
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,7 +16,8 @@ class HomeViewModel @Inject constructor(
     private val usesCase: GetAllNews
 ) : ViewModel() {
 
-    var breakingNewsPage = 1
+    var NewsPageNumber = 1
+    private val cache = mutableListOf<Article>()
 
     private val _allList = MutableLiveData<NewsResponse>()
     val allList: LiveData<NewsResponse>
@@ -30,18 +32,20 @@ class HomeViewModel @Inject constructor(
         get() = _showErrorMessage
 
     init {
-        _showErrorMessage.value = ""
+        // _showErrorMessage.value = ""
         _showProgress.value = false
         getAllNews()
     }
 
     private fun getAllNews() = viewModelScope.launch {
         _showProgress.postValue(true)
+
         try {
 
-            val result = usesCase.getAllNews("us", pageNumber = breakingNewsPage)
+            val result = usesCase.getAllNews("us", pageNumber = NewsPageNumber)
             _allList.postValue(result)
             _showProgress.postValue(false)
+            NewsPageNumber++
 
         } catch (e: Exception) {
             _showProgress.postValue(false)
