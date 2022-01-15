@@ -5,7 +5,7 @@ import com.smartzone.newsapp.domain.repoitory.NewsRepository
 import javax.inject.Inject
 
 class RemoveNews @Inject constructor(private val repo: NewsRepository) {
-    suspend fun removeNewsFromDB(article: Article) {
-        repo.deleteNews(article)
+    suspend fun removeNewsFromDB(article: Article):Boolean {
+       return repo.deleteNews(article)
     }
 }

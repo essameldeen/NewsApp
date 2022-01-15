@@ -33,11 +33,15 @@ class NewRepositoryImp @Inject constructor(private val db: NewsDataBase, retrofi
 
     }
 
-    override suspend fun deleteNews(article: Article) {
-        db.getNewsDao().deleteArticle(article)
+    override suspend fun deleteNews(article: Article):Boolean {
+        return try {
+            db.getNewsDao().deleteArticle(article)
+            true
+        } catch (e: Exception) {
+            false
+        }
     }
 
-    override suspend fun getAllNewsFromDB() {
-        TODO("Not yet implemented")
-    }
+    override fun getAllNewsFromDB() = db.getNewsDao().getAllNews()
+
 }

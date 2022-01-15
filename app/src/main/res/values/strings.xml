@@ -11,4 +11,5 @@
     <string name="author"> Author :</string>
     <string name="content">content</string>
     <string name="description_text">Descritpion :</string>
+    <string name="no_data">Now Article in Favourite !</string>
 </resources>

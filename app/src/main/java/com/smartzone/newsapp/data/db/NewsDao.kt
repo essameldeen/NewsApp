@@ -7,7 +7,7 @@ import com.smartzone.newsapp.data.model.Article
 @Dao
 interface NewsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun addArticle(article : Article):Long
+    suspend fun addArticle(article : Article)
 
     @Query("SELECT * FROM articles")
     fun  getAllNews() : LiveData<List<Article>>
