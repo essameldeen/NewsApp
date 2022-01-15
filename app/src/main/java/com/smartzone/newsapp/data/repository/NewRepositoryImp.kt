@@ -11,8 +11,9 @@ import javax.inject.Inject
 class NewRepositoryImp @Inject constructor(private val db: NewsDataBase, retrofit: Retrofit) :
     NewsRepository {
     private val api = retrofit.create(NewsApi::class.java)
+
     override suspend fun getAllNews(country: String, pageNumber: Int): NewsResponse {
-        return  api.getBreakingNews(country, pageNumber)
+        return api.getBreakingNews(country, pageNumber)
     }
 
     override suspend fun searchByTopic(
@@ -22,12 +23,18 @@ class NewRepositoryImp @Inject constructor(private val db: NewsDataBase, retrofi
         TODO("Not yet implemented")
     }
 
-    override suspend fun insertNews(article: Article) {
-        TODO("Not yet implemented")
+    override suspend fun insertNews(article: Article): Boolean {
+        return try {
+            db.getNewsDao().addArticle(article)
+            true
+        } catch (e: Exception) {
+            false
+        }
+
     }
 
     override suspend fun deleteNews(article: Article) {
-        TODO("Not yet implemented")
+        db.getNewsDao().deleteArticle(article)
     }
 
     override suspend fun getAllNewsFromDB() {
