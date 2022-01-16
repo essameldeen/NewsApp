@@ -1,7 +1,7 @@
 # NewsApp
 News App for all News arround the world 
 
-#Technology 
+# Technology 
 * Clean architecture 
 * mvvm 
 * coroutines
