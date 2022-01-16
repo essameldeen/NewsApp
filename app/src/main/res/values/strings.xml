@@ -12,4 +12,6 @@
     <string name="content">content</string>
     <string name="description_text">Descritpion :</string>
     <string name="no_data">Now Article in Favourite !</string>
+    <string name="search">Search...</string>
+    <string name="no_result">"No Result for your  Search "</string>
 </resources>

@@ -19,8 +19,8 @@ class NewRepositoryImp @Inject constructor(private val db: NewsDataBase, retrofi
     override suspend fun searchByTopic(
         searchValue: String,
         pageNumber: Int
-    ): MutableList<NewsResponse> {
-        TODO("Not yet implemented")
+    ): NewsResponse {
+            return api.searchForNews(searchValue, pageNumber)
     }
 
     override suspend fun insertNews(article: Article): Boolean {
@@ -33,7 +33,7 @@ class NewRepositoryImp @Inject constructor(private val db: NewsDataBase, retrofi
 
     }
 
-    override suspend fun deleteNews(article: Article):Boolean {
+    override suspend fun deleteNews(article: Article): Boolean {
         return try {
             db.getNewsDao().deleteArticle(article)
             true

@@ -1,23 +1,18 @@
-package com.smartzone.newsapp.presentation.home
+package com.smartzone.newsapp.presentation.search
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.smartzone.newsapp.data.model.Article
 import com.smartzone.newsapp.data.model.NewsResponse
-import com.smartzone.newsapp.domain.usecase.GetAllNews
+import com.smartzone.newsapp.domain.usecase.SearchNews
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(
-    private val usesCase: GetAllNews
-) : ViewModel() {
-
-    var newsPageNumber = 1
-    private val cache = mutableListOf<Article>()
+class SearchViewModel @Inject constructor(private val useCase: SearchNews) : ViewModel() {
+    private var newsPageNumber = 1
 
     private val _allList = MutableLiveData<NewsResponse>()
     val allList: LiveData<NewsResponse>
@@ -32,25 +27,19 @@ class HomeViewModel @Inject constructor(
         get() = _showErrorMessage
 
     init {
-
-        _showProgress.value = false
-        getAllNews()
+        _showProgress.postValue(false)
     }
 
-    private fun getAllNews() = viewModelScope.launch {
+    fun searchNews(searchValue: String) = viewModelScope.launch {
         _showProgress.postValue(true)
-
         try {
-
-            val result = usesCase.getAllNews("us", pageNumber = newsPageNumber)
-            _allList.postValue(result)
             _showProgress.postValue(false)
-            newsPageNumber++
-
+            val result = useCase.search(searchValue, pageNumber = newsPageNumber)
+            _allList.postValue(result)
         } catch (e: Exception) {
             _showProgress.postValue(false)
             _showErrorMessage.postValue(e.message)
         }
-    }
 
+    }
 }

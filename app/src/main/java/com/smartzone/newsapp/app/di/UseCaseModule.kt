@@ -1,10 +1,7 @@
 package com.smartzone.newsapp.app.di
 
 import com.smartzone.newsapp.domain.repoitory.NewsRepository
-import com.smartzone.newsapp.domain.usecase.AddNews
-import com.smartzone.newsapp.domain.usecase.GetAllNews
-import com.smartzone.newsapp.domain.usecase.GetAllNewsDB
-import com.smartzone.newsapp.domain.usecase.RemoveNews
+import com.smartzone.newsapp.domain.usecase.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -25,6 +22,11 @@ object UseCaseModule {
     @Singleton
     fun provideInsertNews(repo: NewsRepository): AddNews {
         return AddNews(repo)
+    }
+    @Provides
+    @Singleton
+    fun provideSearchNews(repo: NewsRepository): SearchNews {
+        return SearchNews(repo)
     }
 
     @Provides
