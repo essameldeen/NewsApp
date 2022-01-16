@@ -24,15 +24,16 @@ abstract class BaseFragment : Fragment()
     {
         if (loading.isShowing) loading.dismiss()
     }
+    fun showMessage(message: String)
+    {
+        dismissLoading()
+        Toast.makeText(requireActivity(), message, Toast.LENGTH_SHORT).show()
+    }
 
     fun showError(error: String)
     {
         dismissLoading()
         Toast.makeText(requireActivity(), error, Toast.LENGTH_SHORT).show()
     }
-    fun showMessage(message: String)
-    {
-        dismissLoading()
-        Toast.makeText(requireActivity(), message, Toast.LENGTH_SHORT).show()
-    }
+
 }

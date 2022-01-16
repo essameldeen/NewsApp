@@ -12,8 +12,7 @@ import com.smartzone.newsapp.data.model.Article
 import com.smartzone.newsapp.data.model.NewsResponse
 import com.smartzone.newsapp.databinding.FragmentSearchBinding
 import com.smartzone.newsapp.presentation.base.BaseFragment
-import com.smartzone.newsapp.presentation.home.HomeFragmentDirections
-import com.smartzone.newsapp.presentation.home.NewsAdapter
+import com.smartzone.newsapp.presentation.base.NewsAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.MainScope
@@ -22,9 +21,9 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class SearchFragment : BaseFragment() {
-    lateinit var binding: FragmentSearchBinding
+    private lateinit var binding: FragmentSearchBinding
     private val viewMode: SearchViewModel by viewModels()
-    lateinit var newsAdapter: NewsAdapter
+    private lateinit var newsAdapter: NewsAdapter
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -34,49 +33,34 @@ class SearchFragment : BaseFragment() {
         return binding.root
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewMode.allList.observe(this@SearchFragment, {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initObserves()
+        initListenerSearch()
+        initAdapter()
+        initListeners()
+
+
+    }
+
+    private fun initObserves() {
+        viewMode.allNews.observe(viewLifecycleOwner, {
             if (it.articles.size > 0)
-                setView(it)
+                setDataInView(it)
             else {
                 showNoData()
             }
         })
-        viewMode.showProgress.observe(this@SearchFragment, {
+        viewMode.showProgress.observe(viewLifecycleOwner, {
             if (it) {
                 showLoading()
             } else {
                 dismissLoading()
             }
         })
-        viewMode.showErrorMessage.observe(this@SearchFragment, {
+        viewMode.showErrorMessage.observe(viewLifecycleOwner, {
             showMessage(it)
         })
-    }
-
-    private fun showNoData() {
-        binding.noResult.visibility = View.VISIBLE
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        initListenerSearch()
-        initAdapter()
-        newsAdapter.setOnItemClickListener {
-            goToDetailsFragment(it)
-        }
-
-    }
-    private fun goToDetailsFragment(article: Article) {
-        findNavController().navigate(SearchFragmentDirections.navigateToDetailsFragment(article))
-    }
-    private fun initAdapter() {
-        newsAdapter = NewsAdapter()
-        binding.rvSearchNews.apply {
-            adapter = newsAdapter
-            layoutManager = LinearLayoutManager(activity)
-        }
     }
 
     private fun initListenerSearch() {
@@ -87,7 +71,7 @@ class SearchFragment : BaseFragment() {
                 delay(1000L)
                 edText?.let {
                     if (edText.toString().isNotEmpty()) {
-                        removeAllItemm()
+                        removeAllItem()
                         viewMode.searchNews(edText.toString())
 
                     }
@@ -96,12 +80,34 @@ class SearchFragment : BaseFragment() {
         }
     }
 
-    private fun setView(newsData: NewsResponse?) {
+    private fun initAdapter() {
+        newsAdapter = NewsAdapter()
+        binding.rvSearchNews.apply {
+            adapter = newsAdapter
+            layoutManager = LinearLayoutManager(activity)
+        }
+    }
+
+    private fun initListeners() {
+        newsAdapter.setOnItemClickListener {
+            goToDetailsFragment(it)
+        }
+    }
+
+    private fun setDataInView(newsData: NewsResponse?) {
         newsAdapter.differ.submitList(newsData!!.articles.toList())
     }
 
-    private fun removeAllItemm() {
+    private fun removeAllItem() {
         newsAdapter.differ.submitList(listOf())
+    }
+
+    private fun showNoData() {
+        binding.noResult.visibility = View.VISIBLE
+    }
+
+    private fun goToDetailsFragment(article: Article) {
+        findNavController().navigate(SearchFragmentDirections.navigateToDetailsFragment(article))
     }
 
 

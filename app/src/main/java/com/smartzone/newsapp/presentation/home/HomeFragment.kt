@@ -11,57 +11,54 @@ import com.smartzone.newsapp.data.model.Article
 import com.smartzone.newsapp.data.model.NewsResponse
 import com.smartzone.newsapp.databinding.FragmentHomeBinding
 import com.smartzone.newsapp.presentation.base.BaseFragment
+import com.smartzone.newsapp.presentation.base.NewsAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_home.*
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment() {
-    lateinit var binding: FragmentHomeBinding
+    private lateinit var binding: FragmentHomeBinding
     private val viewModel: HomeViewModel by viewModels()
     lateinit var newsAdapter: NewsAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel.allList.observe(this@HomeFragment, {
-            setView(it)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initObservers()
+        initView()
+        initListener()
+
+
+    }
+    override fun onResume() {
+        super.onResume()
+        viewModel.getAllNews()
+    }
+
+
+
+    private fun initObservers() {
+        viewModel.allNews.observe(viewLifecycleOwner, {
+            setDataInView(it)
         })
-        viewModel.showProgress.observe(this@HomeFragment, {
+        viewModel.showProgress.observe(viewLifecycleOwner, {
             if (it) {
                 showLoading()
             } else {
                 dismissLoading()
             }
         })
-        viewModel.showErrorMessage.observe(this@HomeFragment, {
+        viewModel.showErrorMessage.observe(viewLifecycleOwner, {
             showError(it)
         })
     }
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.getAllNews()
-    }
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        initView()
-        newsAdapter.setOnItemClickListener {
-            goToDetailsFragment(it)
-        }
-
-    }
-
-    private fun goToDetailsFragment(article: Article) {
-        findNavController().navigate(HomeFragmentDirections.navigateToDetailsFragment(article))
-    }
-
     private fun initView() {
         newsAdapter = NewsAdapter()
         binding.rvAllNews.apply {
@@ -69,10 +66,20 @@ class HomeFragment : BaseFragment() {
             layoutManager = LinearLayoutManager(activity)
         }
     }
-
-    private fun setView(newsData: NewsResponse?) {
+    private fun initListener() {
+        newsAdapter.setOnItemClickListener {
+            goToDetailsFragment(it)
+        }
+    }
+    private fun setDataInView(newsData: NewsResponse?) {
         newsAdapter.differ.submitList(newsData!!.articles.toList())
     }
+    private fun goToDetailsFragment(article: Article) {
+        findNavController().navigate(HomeFragmentDirections.navigateToDetailsFragment(article))
+    }
+
+
+
 
 
 }

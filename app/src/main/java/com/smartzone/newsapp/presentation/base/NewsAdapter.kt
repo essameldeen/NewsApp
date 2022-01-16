@@ -1,4 +1,4 @@
-package com.smartzone.newsapp.presentation.home
+package com.smartzone.newsapp.presentation.base
 
 import android.view.LayoutInflater
 import android.view.View

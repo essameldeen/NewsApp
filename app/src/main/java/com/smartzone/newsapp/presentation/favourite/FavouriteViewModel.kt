@@ -22,12 +22,13 @@ class FavouriteViewModel @Inject constructor(
     private val _success = MutableLiveData<Boolean>()
     val success: LiveData<Boolean>
         get() = _success
-    private val _showErrorMessage = MutableLiveData<String>()
 
+    private val _showErrorMessage = MutableLiveData<String>()
     val showErrorMessage: LiveData<String>
         get() = _showErrorMessage
 
     fun getAllNewsDb() = usesCaseGet.getAllNews()
+
     fun removeNews(article: Article) = viewModelScope.launch {
         try {
             val result = usesCaseDelete.removeNewsFromDB(article)

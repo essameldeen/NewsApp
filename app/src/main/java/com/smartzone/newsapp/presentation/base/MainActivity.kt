@@ -16,13 +16,23 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         supportActionBar?.setDisplayShowHomeEnabled(true)
+
+        initNavController()
+
+
+    }
+
+    private fun initNavController() {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+
         val navController = navHostFragment.navController
         findViewById<BottomNavigationView>(R.id.bottomNavigationView).setupWithNavController(
             navController
         )
+
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.homeFragment -> showBottomNav()
@@ -34,11 +44,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun showBottomNav() {
+        bottomNavigationView.visibility = View.VISIBLE
+    }
+
     private fun hideBottomNav() {
         bottomNavigationView.visibility = View.GONE
     }
 
-    private fun showBottomNav() {
-        bottomNavigationView.visibility = View.VISIBLE
-    }
+
 }

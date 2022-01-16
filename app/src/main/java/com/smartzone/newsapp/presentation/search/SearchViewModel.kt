@@ -15,9 +15,9 @@ import javax.inject.Inject
 class SearchViewModel @Inject constructor(private val useCase: SearchNews) : ViewModel() {
     private var newsPageNumber = 1
 
-    private val _allList = MutableLiveData<NewsResponse>()
-    val allList: LiveData<NewsResponse>
-        get() = _allList
+    private val _allNews = MutableLiveData<NewsResponse>()
+    val allNews: LiveData<NewsResponse>
+        get() = _allNews
 
     private val _showProgress = MutableLiveData<Boolean>()
     val showProgress: LiveData<Boolean>
@@ -37,7 +37,7 @@ class SearchViewModel @Inject constructor(private val useCase: SearchNews) : Vie
             delay(500L)
             _showProgress.postValue(false)
             val result = useCase.search(searchValue, pageNumber = newsPageNumber)
-            _allList.postValue(result)
+            _allNews.postValue(result)
         } catch (e: Exception) {
             _showProgress.postValue(false)
             _showErrorMessage.postValue(e.message)
