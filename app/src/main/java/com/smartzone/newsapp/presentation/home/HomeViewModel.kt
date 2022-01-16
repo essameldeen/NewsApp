@@ -16,7 +16,7 @@ class HomeViewModel @Inject constructor(
     private val usesCase: GetAllNews
 ) : ViewModel() {
 
-    var newsPageNumber = 1
+   private var newsPageNumber = 1
     private val cache = mutableListOf<Article>()
 
     private val _allList = MutableLiveData<NewsResponse>()
@@ -37,7 +37,7 @@ class HomeViewModel @Inject constructor(
         getAllNews()
     }
 
-    private fun getAllNews() = viewModelScope.launch {
+     fun getAllNews() = viewModelScope.launch {
         _showProgress.postValue(true)
 
         try {
@@ -52,5 +52,6 @@ class HomeViewModel @Inject constructor(
             _showErrorMessage.postValue(e.message)
         }
     }
+
 
 }

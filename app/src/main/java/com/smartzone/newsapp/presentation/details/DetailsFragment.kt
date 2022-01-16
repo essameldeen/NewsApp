@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.smartzone.newsapp.databinding.FragmentDetailsBinding
@@ -37,6 +38,9 @@ class DetailsFragment : BaseFragment() {
             viewModel.insertNews(article)
         }
 
+        binding.toolbar.setNavigationOnClickListener {
+            findNavController().popBackStack()
+        }
         return binding.root
     }
 

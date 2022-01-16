@@ -45,6 +45,10 @@ class HomeFragment : BaseFragment() {
         })
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.getAllNews()
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
@@ -69,7 +73,6 @@ class HomeFragment : BaseFragment() {
     private fun setView(newsData: NewsResponse?) {
         newsAdapter.differ.submitList(newsData!!.articles.toList())
     }
-
 
 
 }

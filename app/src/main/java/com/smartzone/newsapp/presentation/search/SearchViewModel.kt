@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.smartzone.newsapp.data.model.NewsResponse
 import com.smartzone.newsapp.domain.usecase.SearchNews
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -33,6 +34,7 @@ class SearchViewModel @Inject constructor(private val useCase: SearchNews) : Vie
     fun searchNews(searchValue: String) = viewModelScope.launch {
         _showProgress.postValue(true)
         try {
+            delay(500L)
             _showProgress.postValue(false)
             val result = useCase.search(searchValue, pageNumber = newsPageNumber)
             _allList.postValue(result)

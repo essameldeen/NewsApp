@@ -14,4 +14,8 @@
     <string name="no_data">Now Article in Favourite !</string>
     <string name="search">Search...</string>
     <string name="no_result">"No Result for your  Search "</string>
+    <string name="newsApp">News App</string>
+    <string name="search_fragment">Search For Topic</string>
+    <string name="favourite_fragment">Favourite Article</string>
+    <string name="details_fragment">Article Details</string>
 </resources>

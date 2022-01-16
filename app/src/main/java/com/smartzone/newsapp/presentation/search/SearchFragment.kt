@@ -6,10 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.smartzone.newsapp.data.model.Article
 import com.smartzone.newsapp.data.model.NewsResponse
 import com.smartzone.newsapp.databinding.FragmentSearchBinding
 import com.smartzone.newsapp.presentation.base.BaseFragment
+import com.smartzone.newsapp.presentation.home.HomeFragmentDirections
 import com.smartzone.newsapp.presentation.home.NewsAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
@@ -60,9 +63,14 @@ class SearchFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         initListenerSearch()
         initAdapter()
+        newsAdapter.setOnItemClickListener {
+            goToDetailsFragment(it)
+        }
 
     }
-
+    private fun goToDetailsFragment(article: Article) {
+        findNavController().navigate(SearchFragmentDirections.navigateToDetailsFragment(article))
+    }
     private fun initAdapter() {
         newsAdapter = NewsAdapter()
         binding.rvSearchNews.apply {
